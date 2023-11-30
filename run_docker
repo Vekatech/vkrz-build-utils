@@ -1,0 +1,1 @@
+docker run --rm -it -v "/home/$USER/work:/home/$USER/work" --workdir=$(pwd) rz_ubuntu-20.04
