@@ -41,7 +41,6 @@ function main_process(){
 	unpack_gpu
         unpack_codec
 	unpack_multi_os
-	#remove_redundant_patches
         unzip_src
         getrcp
 	echo ""
@@ -178,25 +177,6 @@ function unpack_multi_os(){
 	extract_to_meta ${pkg_file} ${zip_dir} ${rtos} ${zip_dir}
 	cp -ar ${zip_dir}/meta-rz-features ${YOCTO_HOME}/meta-multi-os
 	rm -fr ${zip_dir}
-
-	# replace the layer name
-	#sed -i 's/rz-features/multi-os/g' ${YOCTO_HOME}/meta-multi-os/conf/layer.conf
-}
-
-function remove_redundant_patches(){
-	# remove linux patches that were merged into the Avnet kernel
-	flist=$(find ${YOCTO_HOME} -name "linux-renesas_*.bbappend")
-	for ff in ${flist}
-	do
-		echo ${ff}
-		rm -rf ${ff}
-	done
-
-	# remove u-boot patches
-	find ${YOCTO_HOME} -name "u-boot_*.bbappend" -print -exec rm -rf {} \;
-
-	# remove tfa patches
-	find ${YOCTO_HOME} -name "trusted-firmware-a.bbappend" -print -exec mv {} {}.remove \;
 }
 
 function getrcp()
