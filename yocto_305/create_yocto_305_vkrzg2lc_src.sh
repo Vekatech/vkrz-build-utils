@@ -4,7 +4,7 @@ VERSION=0.2.0
 
 # Make sure that the following packages have been downloaded from the official website
 # RZ/G Verified Linux Package [5.10-CIP]  V3.0.5
-REN_LINUX_BSP_PKG="RTK0EF0045Z0021AZJ-v3.0.5"
+REN_LINUX_BSP_PKG="RTK0EF0045Z0021AZJ-v3.0.5-update1"
 SUFFIX_ZIP=".zip"
 
 # RZ MPU Graphics Library V1.1.2 Unrestricted Version
@@ -135,7 +135,7 @@ function unpack_bsp(){
 	local bsp_patch=""
 
 	extract_to_meta ${pkg_file} ${zip_dir} ${bsp} ${YOCTO_HOME}
-	bsp_patch=$(find ${zip_dir} -type f -name "rzg*.patch")
+	bsp_patch=$(find ${zip_dir} -type f -name "v3.0.5*.patch")
 	if [ -n "${bsp_patch}" ]; then
 		echo ${bsp_patch}
 		patch -d ${YOCTO_HOME} -p1 < ${bsp_patch}
@@ -184,6 +184,7 @@ function getrcp()
     cd ${YOCTO_HOME}/
     #download 
     git clone ${VKRZ_RCP_GIT_URL} ${YOCTO_HOME}/meta-vkrzg2lc
+    #ln -s ${WORKSPACE}/meta-vkrzg2lc meta-vkrzg2lc
     cd ${WORKPWD}/
     #cp -rf ./meta* ${YOCTO_HOME}/
 }
