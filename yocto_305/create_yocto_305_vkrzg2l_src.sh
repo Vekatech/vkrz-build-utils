@@ -18,7 +18,7 @@ REN_VIDEO_CODEC_LIB_PKG="RTK0EF0045Z16001ZJ-v1.1.0_rzg_EN"
 REN_VIDEO_CODEC_LIB_PKG_EVAL="RTK0EF0045Z15001ZJ-v1.1.0_EN"
 
 # RZ/G2L Multi-OS Package V1.22
-REN_G2L_MULTI_OS_PKG="r01an5869ej0122-rzg2l-cm33-multi-os-pkg"  
+REN_G2L_MULTI_OS_PKG="r01an5869ej0121-rzg2l-cm33-multi-os-pkg"  
 
 VKRZ_RCP_GIT_URL="https://github.com/Vekatech/meta-vkrzg2l.git"
 
@@ -26,7 +26,11 @@ OSS_PKG="oss_pkg_rzg_v3.0.5"
 SUFIX_7Z=".7z"
                    
 # ----------------------------------------------------------------
-PKGKDIR=$HOME/work/rzg_vlp_v3.0.5
+if [ $# -eq 0 ]; then
+    PKGKDIR=$HOME/work/rzg_vlp_v305
+else
+    PKGKDIR=$1
+fi
 WORKSPACE=$(pwd)
 YOCTO_HOME="${WORKSPACE}/yocto_305"
 BUILD_DIR="build"
@@ -141,6 +145,10 @@ function unpack_bsp(){
 		patch -d ${YOCTO_HOME} -p1 < ${bsp_patch}
 	fi
 	rm -fr ${zip_dir}
+
+	if [ -f "${YOCTO_HOME}/meta-renesas/meta-rz-common/include/core-image-renesas-base.inc" ]; then
+		sed -i "s|BSP_VERSION=\".*\"|BSP_VERSION=\"${REN_LINUX_BSP_PKG#*-v}\"|g" ${YOCTO_HOME}/meta-renesas/meta-rz-common/include/core-image-renesas-base.inc
+	fi
 }
 
 function unpack_gpu(){

@@ -1,1 +1,5 @@
-docker run --rm -it -v "/home/$USER/work:/home/$USER/work" --workdir=$(pwd) rz_ubuntu-20.04
+if [ $# -eq 0 ]; then
+    docker run --rm -it -v "/home/$USER/work:/home/$USER/work" --workdir=$(pwd) rz_ubuntu-20.04
+else
+    docker run --rm -it -v "$1:$1" -e SETUP="$2" -e HELP="$3" --workdir=$(pwd) rz_ubuntu-20.04
+fi
